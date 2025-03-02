@@ -1,0 +1,1 @@
+Front-end display component for a public news API
