@@ -1,0 +1,41 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+.mainContainer
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.headlineContainer
+{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    width: 30%;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.headlineSubContainer
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 20px 0;
+}
+
+.headlineImage
+{
+    width: 200px;
+    height: auto;
+}
+
+.headlineDescription
+{
+    margin: 0 20px;
+    font-size: 0.9em !important;
+}
