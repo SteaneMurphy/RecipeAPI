@@ -94,8 +94,8 @@ function RandomPlaceholder()
 
 function SearchOnClick()
 {
-    console.log(TEST_DATA[0][0]);
-    DisplayResults(TEST_DATA[0]);
+    console.log(TEST_DATA.results);
+    DisplayResults(TEST_DATA.results);
 }
 
 /*
@@ -116,10 +116,41 @@ const recipeCard = (data) =>
     recipeTitle.className = "recipeTitle";
     recipeTitle.textContent = `${data.title}`;
 
-    recipeCardContainer.appendChild(recipeTitle);
+    const recipeCardInfoContainer = document.createElement("div");
+    recipeCardInfoContainer.className = "recipeCardInfoContainer";
+    recipeCardInfoContainer.appendChild(recipeTitle);
+    recipeCardInfoContainer.appendChild(recipeScore(data.spoonacularScore));
+
     recipeCardContainer.appendChild(recipeImage);
+    recipeCardContainer.appendChild(recipeCardInfoContainer);
 
     return recipeCardContainer;
+};
+
+const recipeScore = (score) => 
+{
+    const recipeScoreContainer = document.createElement("div");
+    recipeScoreContainer.className = "recipeScoreContainer";
+
+    const recipeScoreIcon = document.createElement("img");
+    recipeScoreIcon.src = "assets/score.png";
+    recipeScoreIcon.className = "recipeScoreIcon";
+
+    const recipeScore = document.createElement("span");
+    recipeScore.textContent = `User Score: ${score.toFixed(1)}%`;
+    recipeScore.className = "recipeScore";
+
+    recipeScoreContainer.appendChild(recipeScoreIcon);
+    recipeScoreContainer.appendChild(recipeScore);
+    return recipeScoreContainer;
+};
+
+const recipeConditions = (conditions) =>
+{
+    const recipeConditionContainer = document.createElement("div");
+
+    const recipeConditionIcon = document.createElement("img");
+    const recipeConditionText = document.createElement("span");
 };
 
 function DisplayResults(data)
