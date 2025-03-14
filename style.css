@@ -9,7 +9,7 @@ body
 {
     display: flex;
     justify-content: center;
-    /* background-color: #FFF5E1; */
+    background-color: #FFF5E1;
 }
 
 .mainContainer
@@ -92,6 +92,13 @@ body
     height: 100%;
     justify-content: center;
     margin-top: 30px;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-top: 10px;
+    background-color: #f4a19b6b;
+    background-color: #f364222f;
+    border-radius: 12px;
 }
 
 .recipeCardContainer
@@ -100,7 +107,9 @@ body
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 100%;
+    width: 620px;
+    min-width: 620px;
+    max-width: 750px;
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;
@@ -117,16 +126,15 @@ body
 /* .recipeImage:hover
 {
     border: 4px solid #F36422;
-}
+} */
 
-.recipeImage:hover ~ .recipeTitle
+.recipeCardContainer:hover .recipeTitle
 {
     color: #F36422;
-} */
+}
 
 .recipeTitle
 {
-    margin-left: 30px;
     font-weight: bold;
 }
 
@@ -138,6 +146,85 @@ body
 
 .recipeScoreIcon
 {
-    width: 5%;
+    width: 30px;
     margin-right: 10px;
+}
+
+.recipeConditionIcon
+{
+    width: 20px;
+    margin-right: 10px;
+}
+
+.recipeConditionText
+{
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.conditionsSubContainer
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.recipeConditionContainer
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.recipeCardInfoContainer
+{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    height: 100%;
+    margin-left: 30px;
+    width: 50%;
+}
+
+hr
+{
+    border: none;
+    height: 1px;
+    width: 85%;
+    margin-left: 30px;
+    margin-top: 20px;
+    background: #f4a19bbe;
+    background: #f364225b;
+    background: #F36422;
+}
+
+.truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.noResultsText
+{
+    color: #F36422;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.randomButton
+{
+    border: none;
+    color: white;
+    background-color: #ffb08b;
+    width: 100px;
+    border-radius: 12px;
+    margin-left: 20px;
+}
+
+.randomButton:hover
+{
+    background-color: #F36422;
 }
