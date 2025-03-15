@@ -42,10 +42,10 @@ import { CONFIG } from "./config.js";
 
 
 //returns 10 recipes by query
-export function GetRecipesByQuery(query)
+export function GetRecipesByQuery(query, offset)
 {
     //dynamic API URL
-    const URL = `https://api.spoonacular.com/recipes/complexSearch?query=${query}&addRecipeInformation=true`                                
+    const URL = `https://api.spoonacular.com/recipes/complexSearch?query=${query}&offset=${offset}&addRecipeInformation=true`                                
 
     return fetch(URL,                                                                     //fetch request with HTTP type and headers
         { 
@@ -58,7 +58,7 @@ export function GetRecipesByQuery(query)
     .then(response => response.json())                                                    //returned response converted to json
     .then(data => 
         {
-            return data.results;                                                          //return json data to parent function
+            return data;                                                          //return json data to parent function
         })
     .catch(error => console.error("GetMultiple failed:", error.message));                 //log error message to console
 }
@@ -85,9 +85,9 @@ export function GetSingleRecipe(id)
 }
 
 //returns 10 random recipes
-export function GetRandomRecipes()
+export function GetRandomRecipes(offset)
 {
-    const URL = `https://api.spoonacular.com/recipes/complexSearch?sort=random&addRecipeInformation=true`
+    const URL = `https://api.spoonacular.com/recipes/complexSearch?sort=random&offset=${offset}&addRecipeInformation=true`
 
     return fetch(URL, 
         { 
@@ -100,7 +100,7 @@ export function GetRandomRecipes()
     .then(response => response.json())
     .then(data => 
         {
-            return data.results;
+            return data;
         })
     .catch(error => console.error("GetRandom failed:", error.message));
 }

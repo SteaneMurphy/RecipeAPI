@@ -92,7 +92,7 @@ body
     height: 100%;
     justify-content: center;
     margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     padding-bottom: 30px;
     padding-left: 20px;
     padding-top: 10px;
@@ -115,12 +115,72 @@ body
     margin-right: 10px;
 }
 
+.recipeCardContainer.expanded
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 620px;
+    min-width: 620px;
+    max-width: 750px;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.recipeCardContainer.expanded .recipeImage 
+{
+    width: 80%;
+    height: auto;
+    margin-left: 20px;
+}
+
+.recipeCardContainer.expanded .recipeCardInfoContainer
+{
+    width: 90%;
+}
+
+.recipeCardContainer.expanded .recipeTitle
+{
+    margin-top: 20px;
+}
+
+.recipeCardContainer.expanded .recipeScoreContainer
+{
+    margin-bottom: 20px;
+}
+
+.recipeCardContainer.expanded .recipeSummary
+{
+    margin-bottom: 20px;
+}
+
+/* .recipeCardContainer.expanded .truncate {
+    white-space: normal;
+    overflow: visible;
+} */
+
+.recipeCardContainer:hover
+{
+    box-shadow: 2px 2px 5px #f3642269;
+    border-radius: 12px;
+}
+
+.recipeCardContainer.expanded:hover
+{
+    box-shadow: none;
+    border-radius: none;
+}
+
 .recipeImage
 {
     min-width: 180px;
     width: 180px;
     height: 150px;
     border-radius: 12px;
+    /* box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); */
+    box-shadow: 4px 4px 10px #f3642269;
 }
 
 /* .recipeImage:hover
@@ -135,18 +195,19 @@ body
 
 .recipeTitle
 {
-    font-weight: bold;
+    font-weight: bold;  
 }
 
 .recipeScoreContainer
 {
     display: flex;
     align-items: center;
+    color: #F36422;
 }
 
 .recipeScoreIcon
 {
-    width: 30px;
+    width: 20px;
     margin-right: 10px;
 }
 
@@ -174,6 +235,8 @@ body
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    color: #F36422;
+    margin-top: 2px;
 }
 
 .recipeCardInfoContainer
@@ -227,4 +290,44 @@ hr
 .randomButton:hover
 {
     background-color: #F36422;
+}
+
+.heading
+{
+    font-weight: bold;
+}
+
+.ingredientsContainer
+{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.instructionsContainer
+{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-top: 20px;
+    width: 90%;
+}
+
+.loadMoreButton
+{
+    border: none;
+    color: white;
+    background-color: #ffb08b;
+    width: 150px;
+    height: 50px;
+    border-radius: 12px;
+    margin-left: 20px;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+.loadMoreButton:hover
+{
+    background-color: #F36422 ;
 }

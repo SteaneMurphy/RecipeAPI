@@ -1,6 +1,8 @@
-import { TEST_DATA } from "./testData.js";
+import { TEST_DATA, TEST_DATA_2 } from "./testData.js";
 import { GetRecipesByQuery, GetSingleRecipe, GetRandomRecipes } from "./api.js";
 
+let queryType = "";
+let queryOffset = 0;
 
 /* ------------------
    --- COMPONENTS ---
@@ -110,6 +112,7 @@ const RecipeCard = (data) =>
     const recipeCardContainer = document.createElement("div");
     recipeCardContainer.className = "recipeCardContainer";
     recipeCardContainer.setAttribute("recipeId", data.id);                      //stores unique recipe id in element
+    recipeCardContainer.onclick = () => ExpandRecipe(data.id, recipeCardContainer);
 
     const recipeImage = document.createElement("img");
     recipeImage.className = "recipeImage";
@@ -216,7 +219,7 @@ const CardBreakLine = () =>
     const breakLine = document.createElement("hr");
 
     return breakLine;
-}
+};
 
 const NoResultsReturned = () => 
 {
@@ -225,7 +228,71 @@ const NoResultsReturned = () =>
     noResultsText.textContent = `${RandomNoResults()}`;
 
     return noResultsText;
-}
+};
+
+const IngredientsContainer = (ingredientsArray) =>
+{
+    const ingredientsContainer = document.createElement("div");
+    ingredientsContainer.className = "ingredientsContainer";
+
+    const heading = document.createElement("span");
+    heading.className = "heading";
+    heading.textContent = "Ingredients"
+
+    const ingredients = document.createElement("span");
+    ingredients.className = "ingredients";
+    ingredientsArray.forEach(ingredient => 
+    {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${ingredient.original}`;
+        ingredients.appendChild(listItem);
+    });
+
+    ingredientsContainer.appendChild(heading);
+    ingredientsContainer.appendChild(ingredients);
+    
+    return ingredientsContainer;
+};
+
+const InstructionsContainer = (data) =>
+{
+    const instructionsContainer = document.createElement("div");
+    instructionsContainer.className = "instructionsContainer";
+
+    const heading = document.createElement("span");
+    heading.className = "heading";
+    heading.textContent = "Cooking Instructions"
+
+    const instructions = document.createElement("span");
+    instructions.className = "instructions";
+    let instructionsList = SplitByListItems(data);
+    instructionsList.forEach(instruction => 
+    {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${instruction}`;
+        instructions.appendChild(listItem);
+    });
+
+    instructionsContainer.appendChild(heading);
+    instructionsContainer.appendChild(instructions);
+
+    return instructionsContainer;
+};
+
+const LoadMoreButton = (queryType) => 
+{
+    const loadMoreButton = document.createElement("button");
+    loadMoreButton.className = "loadMoreButton";
+    loadMoreButton.textContent = "Load More Recipes";
+    loadMoreButton.setAttribute("resultType", `${queryType}`)
+    loadMoreButton.onclick = () => 
+    {
+        LoadMoreOnClick(queryType);
+    };
+
+    return loadMoreButton;
+};
+
 
 
 /* -------------------------
@@ -293,8 +360,15 @@ function StripHTMLTags(summary) {
     return text.body.textContent || text.body.innerText;
 };
 
+function SplitByListItems(summary) {
+    return summary
+        .split(/<\/?li>/)
+        .map(summary => StripHTMLTags(summary.trim()))
+        .filter(summary => summary.length > 0);
+}
+
 function TruncateText(selector, maxLines) {
-    document.querySelectorAll(selector).forEach(element => {
+    document.querySelectorAll(selector).forEach(element => {    
         const lineHeight = parseFloat(window.getComputedStyle(element).lineHeight);
         const maxHeight = lineHeight * maxLines;
         
@@ -321,14 +395,16 @@ function TruncateText(selector, maxLines) {
 */
 async function SearchOnClick()
 {
-    // console.log(TEST_DATA.results);
-    // DisplayResults(TEST_DATA.results);
+    ResetGlobals();
+    
     let query = document.getElementById("searchField").value;               //gets user input from search input field
 
     try                                                                     //try this logic, else catch
     {
-        let results = await GetRecipesByQuery(query);                       //sends user query to API
-        DisplayResults(results);                                            //displays returned results
+        let results = await GetRecipesByQuery(query, queryOffset);                       //sends user query to API
+        queryType = "STANDARD";
+        queryOffset += results.number;
+        DisplayResults(results.results);                                            //displays returned results
     }
     catch (error)                                                           //triggered if await is unsuccessful
     {
@@ -338,15 +414,78 @@ async function SearchOnClick()
 
 async function RandomOnClick()
 {
+    ResetGlobals();
+    
     try                                                                     //try this logic, else catch
     {
-        let results = await GetRandomRecipes();                             //sends user query to API
-        DisplayResults(results);                                            //displays returned results
+        let results = await GetRandomRecipes(queryOffset);                             //sends user query to API
+        queryType = "RANDOM";
+        queryOffset += results.number;
+        DisplayResults(results.results);                                            //displays returned results
     }
     catch (error)                                                           //triggered if await is unsuccessful
     {
         console.log("API did not return any results: ", error);             //error message
     }
+};
+
+async function ExpandRecipe(id, container)
+{
+    if(container.classList.contains("expanded"))
+    {
+        container.classList.remove("expanded");
+        const ingredientsContainer = container.querySelector(".ingredientsContainer");
+        const instructionsContainer = container.querySelector(".instructionsContainer");
+        ingredientsContainer ? ingredientsContainer.remove() : null;
+        instructionsContainer ? instructionsContainer.remove() : null;
+
+        const recipeSummary = container.querySelector(".recipeSummary");
+        recipeSummary.classList.add("truncate");
+    }
+    else
+    {
+        try
+        {
+            let results = await GetSingleRecipe(id);
+            container.classList.add("expanded");
+            DisplaySingleRecipe(results, container);
+        }
+        catch (error)
+        {
+            console.log("Recipe could not be found by that ID: ", error);
+        }
+    }
+};
+
+async function LoadMoreOnClick(queryType)
+{
+    let query = document.getElementById("searchField").value;               //gets user input from search input field
+
+    try                                                                     //try this logic, else catch
+    {
+        if(queryType === "STANDARD")
+        {
+            let results = await GetRecipesByQuery(query, queryOffset);
+            queryOffset += results.number;
+            DisplayMoreResults(results.results);
+        }
+        else
+        {
+            let results = await GetRandomRecipes(queryOffset);
+            queryOffset += results.number;
+            DisplayMoreResults(results.results);
+        }
+    }
+    catch (error)                                                           //triggered if await is unsuccessful
+    {
+        console.log("API did not return any results: ", error);             //error message
+    }
+}
+
+function ResetGlobals()
+{
+    queryType = "";
+    queryOffset = 0;
 };
 
 /* -------------
@@ -396,7 +535,35 @@ function DisplayResults(data)
 
         TruncateText(".truncate", 3);
         document.getElementById("mainContainer").appendChild(resultsContainer);                  //append to 'mainContainer' (DOM)
+
+        document.querySelectorAll(".loadMoreButton").forEach(button => 
+        {
+            button.remove();
+        });
+        document.getElementById("mainContainer").appendChild(LoadMoreButton("standard"));
     }
+}
+
+function DisplayMoreResults(data)
+{
+    const resultsContainer = document.getElementById("resultsContainer");
+
+    resultsContainer.appendChild(CardBreakLine());
+
+    data.forEach((recipe, index) =>                                                          //for each index in the array
+    {
+        resultsContainer.appendChild(RecipeCard(recipe));                                    //create a new 'RecipeCard' component
+        index != data.length - 1 ? resultsContainer.appendChild(CardBreakLine()) : null;
+    }); 
+};
+
+/*
+    Expanded recipe view.
+*/
+function DisplaySingleRecipe(data, container)
+{
+    container.appendChild(IngredientsContainer(data.extendedIngredients));
+    container.appendChild(InstructionsContainer(data.instructions));
 }
 
 /*
@@ -406,7 +573,8 @@ function DisplayResults(data)
 function DisplayPage()
 {
     document.getElementById("mainContainer").appendChild(Logo());
-    document.getElementById("mainContainer").appendChild(SearchBar());   
+    document.getElementById("mainContainer").appendChild(SearchBar());
+    ResetGlobals();  
 }
 
 //starts the application
