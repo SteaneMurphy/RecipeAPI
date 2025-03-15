@@ -12,6 +12,8 @@ import { CONFIG } from "./config.js";
     stored recipe 'id' is passed to the function so that the query is adjusted for the
     user input.
 
+    The 'offset' value that is passed into some of the endpoints
+
     The fetch request is then called using the predetermined URL variable, its HTTP method
     is applied (GET for fetching data). 
     
@@ -37,30 +39,25 @@ import { CONFIG } from "./config.js";
     API request, which then returns this error as a console log.
 */
 
-
-
-
-
-//returns 10 recipes by query
+//returns 10 recipes by user provided query value and global offset value.
 export function GetRecipesByQuery(query, offset)
 {
-    //dynamic API URL
     const URL = `https://api.spoonacular.com/recipes/complexSearch?query=${query}&offset=${offset}&addRecipeInformation=true`                                
 
-    return fetch(URL,                                                                     //fetch request with HTTP type and headers
+    return fetch(URL,                                                             //fetch request with HTTP type and headers
         { 
             method: "GET",
             headers: 
             {
-                "x-api-key": `${CONFIG.API_KEY}`                                          //key imported from 'CONFIG.js'
+                "x-api-key": `${CONFIG.API_KEY}`                                  //key imported from 'CONFIG.js'
             }
         })
-    .then(response => response.json())                                                    //returned response converted to json
+    .then(response => response.json())                                            //returned response converted to json
     .then(data => 
         {
             return data;                                                          //return json data to parent function
         })
-    .catch(error => console.error("GetMultiple failed:", error.message));                 //log error message to console
+    .catch(error => console.error("GetMultiple failed:", error.message));         //log error message to console
 }
 
 //returns a single recipe by recipe id
