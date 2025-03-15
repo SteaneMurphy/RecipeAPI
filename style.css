@@ -95,7 +95,6 @@ body
     padding-bottom: 30px;
     padding-left: 20px;
     padding-top: 10px;
-    background-color: #f4a19b6b;
     background-color: #f364222f;
     border-radius: 12px;
 }
@@ -132,7 +131,7 @@ body
 {
     width: 80%;
     height: auto;
-    margin-left: 20px;
+    margin-left: 50px;
 }
 
 .recipeCardContainer.expanded .recipeCardInfoContainer
@@ -244,8 +243,6 @@ hr
     width: 85%;
     margin-left: 30px;
     margin-top: 20px;
-    background: #f4a19bbe;
-    background: #f364225b;
     background: #F36422;
 }
 
@@ -318,4 +315,63 @@ hr
 .loadMoreButton:hover
 {
     background-color: #F36422 ;
+}
+
+@media (max-width: 850px)
+{
+    .logoImage
+    {
+        width: 80%;
+    }
+}
+
+@media (max-width: 851px)
+{
+    .recipeCardContainer
+    {
+        flex-direction: column;
+        align-items: center;
+        min-width: 500px;
+        width: 500px;
+    }
+
+    .recipeCardInfoContainer
+    {
+        width: 80%;
+    }
+
+    .recipeImage
+    {
+        width: 60%;
+        height: auto;
+    }
+}
+
+@media (max-width: 620px)
+{
+    .searchField
+    {
+        min-width: 100px;
+        width: 100px;
+    }
+
+    .searchFieldContainer
+    {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 550px)
+{
+    .recipeCardContainer
+    {
+        min-width: 300px;
+        width: 300px;
+    }
+
+    .recipeImage
+    {
+        width: 80%;
+        height: auto;
+    }
 }

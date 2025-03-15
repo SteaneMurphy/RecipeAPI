@@ -3,7 +3,7 @@ import
     RandomPlaceholder,
     RandomNoResults,
     ConditionText,
-    StripHTMLTags,
+    RemoveHTML,
     SplitByListItems,
     SearchOnClick,
     RandomOnClick,
@@ -135,7 +135,7 @@ export const RecipeCard = (data) =>
 
     const recipeSummary = document.createElement("span");
     recipeSummary.className = "recipeSummary truncate";
-    recipeSummary.textContent = RemoveHTMl(data.summary);
+    recipeSummary.textContent = RemoveHTML(data.summary);
 
     const recipeCardInfoContainer = document.createElement("div");
     recipeCardInfoContainer.className = "recipeCardInfoContainer";
