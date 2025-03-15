@@ -1,3 +1,3 @@
 export const CONFIG = {
-    API_KEY: ""
+    API_KEY: process.env.API_KEY,
 };
