@@ -1,14 +1,3 @@
-/*
-    CONFIG VARIABLES
-
-    This script holds the API key variable. I would normally use an
-    environment variable (.env file). This file is excluded from repository
-    upload, for local use only.
-
-    The 'API_KEY' variable is accessed by the 'API.js' script.
-*/  
-
 export const CONFIG = {
-    // API_KEY: "dca0d72375164d17bc13c134b6b90211"
-    API_KEY: "a48b215c08ca4cc4bbf18f4398de26b4"
+    API_KEY: ""
 };
