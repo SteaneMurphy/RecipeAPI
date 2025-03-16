@@ -58,7 +58,8 @@ export function RemoveHTML(summary) {
 
 export function SplitByListItems(summary) {
     return summary
-        .split(/<\/?li>/)                               //split on <li>
+        //.split(/<\/?li>/)                             //split on <li>
+        .split("\n")                                    //split on newline
         .map(summary => RemoveHTML(summary.trim()))     //iterate and remove HTML
         .filter(summary => summary.length > 0);         //iterate and remove blank strings
 }
@@ -129,8 +130,10 @@ export async function ExpandRecipe(id, container)
     {
         try
         {
-            let results = await GetSingleRecipe(id);                        
-            container.classList.add("expanded");                            
+            let results = await GetSingleRecipe(id);
+            const recipeSummary = container.querySelector(".recipeSummary");
+            recipeSummary.classList.remove("truncate");                        
+            container.classList.add("expanded");                           
             DisplaySingleRecipe(results, container);                        
         }
         catch (error)
